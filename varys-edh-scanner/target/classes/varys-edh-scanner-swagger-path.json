@@ -1,0 +1,72 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "EDH Scanner",
+    "description": "Extract attributes from the TDO and Payload Enterprise Data Headers (EDH)",
+    "termsOfService": "http://example.com/terms/",
+    "contact": {
+      "name": "Northrop Grumman Corporation: Subtle Knife BAA - Varys Contractor",
+      "url": "http://ngc.com/support",
+      "email": "support@ngc.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },    
+    "version": "beta"
+  },
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "host": "varys",
+  "basePath": "/edh-scanner/beta",
+  "paths": {
+    "/attributes/{file}": {
+      "get": {
+        "summary": "get file EDH attributes",
+        "description": "get EDH attributes associated with the file parameter",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "description": "Amazon Web Services (AWS)  Simple Storage Service (S3) Amazon Resource Name(ARN).  For example, arn:aws:s3:::my_data_bucket/data-file.tdo",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "list of file attributes",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/attribute"
+              }
+            }
+          },
+          "400": {
+            "description": "Unable to locate file"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "attribute": {
+      "type": "object",
+      "required": ["key", "value"],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
